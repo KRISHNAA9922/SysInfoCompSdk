@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Text, View, type ViewStyle, type TextStyle } from 'react-native';
-import SystemInfo from '../../NativeSystemInfo';
+import SystemInfo from '../../NativeSysinfocomps';
 
 type BatteryUsageProps = {
   label?: string;

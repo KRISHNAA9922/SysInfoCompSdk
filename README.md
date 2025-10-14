@@ -281,7 +281,7 @@ const getSystemMetrics = async () => {
 │   ├── StorageUsageComponent.tsx # Storage usage component
 │   ├── BatteryUsageComponent.tsx # Battery usage component
 │   ├── SystemPerformanceWidget.tsx # Dashboard widget
-│   ├── NativeSystemInfo.ts       # TurboModule interface
+│   ├── NativeSysinfocomps.ts       # TurboModule interface
 │   └── index.tsx                 # Main exports
 ├── android/                      # Android native code
 │   └── src/main/java/com/sysinfocomps/

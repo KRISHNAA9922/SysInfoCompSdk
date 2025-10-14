@@ -1,7 +1,7 @@
 import Sysinfocomps from './NativeSysinfocomps';
 
 // Export native modules
-export { default as SystemInfo } from './NativeSystemInfo';
+export { default as SystemInfo } from './NativeSysinfocomps';
 
 // Export individual components
 export { default as CPUUsageComponent } from './component/ui/CPUUsageComponent';
