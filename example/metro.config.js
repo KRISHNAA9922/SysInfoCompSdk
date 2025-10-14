@@ -10,7 +10,18 @@ const root = path.resolve(__dirname, '..');
  *
  * @type {import('metro-config').MetroConfig}
  */
-module.exports = withMetroConfig(getDefaultConfig(__dirname), {
+const defaultConfig = getDefaultConfig(__dirname);
+
+// Ensure a single copy of react/react-native is resolved from the example app
+defaultConfig.resolver = {
+  ...defaultConfig.resolver,
+  extraNodeModules: {
+    'react': path.resolve(__dirname, 'node_modules/react'),
+    'react-native': path.resolve(__dirname, 'node_modules/react-native'),
+  },
+};
+
+module.exports = withMetroConfig(defaultConfig, {
   root,
   dirname: __dirname,
 });
