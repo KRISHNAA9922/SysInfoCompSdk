@@ -35,7 +35,9 @@ export default function App() {
           <TextInput
             style={styles.input}
             value={refreshInterval.toString()}
-            onChangeText={(text) => setRefreshInterval(parseInt(text) || 1000)}
+            onChangeText={(text) =>
+              setRefreshInterval(parseInt(text, 10) || 1000)
+            }
             keyboardType="numeric"
           />
         </View>
@@ -125,7 +127,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#03aaf2ff         ',
+    backgroundColor: '#98a3cdff',
     paddingTop: 50,
   },
   title: {
