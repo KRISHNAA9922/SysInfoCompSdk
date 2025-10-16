@@ -1,5 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Text, View, ActivityIndicator, Platform, type ViewStyle, type TextStyle, type StyleProp } from 'react-native';
+import {
+  Text,
+  View,
+  ActivityIndicator,
+  Platform,
+  type ViewStyle,
+  type TextStyle,
+  type StyleProp,
+} from 'react-native';
 import ProgressBar from './ProgressBar';
 import SystemInfo from '../../NativeSysinfocomps';
 
@@ -81,12 +89,10 @@ const CPUUsageComponent: React.FC<CPUUsageProps> = ({
         </>
       ) : error ? (
         <Text style={valueStyle}>Error: {error}</Text>
+      ) : Platform.OS === 'ios' ? (
+        <ActivityIndicator accessibilityLabel="Loading CPU usage" />
       ) : (
-        Platform.OS === 'ios' ? (
-          <ActivityIndicator accessibilityLabel="Loading CPU usage" />
-        ) : (
-          <Text style={valueStyle}>Loading...</Text>
-        )
+        <Text style={valueStyle}>Loading...</Text>
       )}
     </View>
   );

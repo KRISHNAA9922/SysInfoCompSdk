@@ -34,52 +34,98 @@ export default function App() {
   const theme = getAppTheme(isDark);
 
   useEffect(() => {
-    SystemInfo.getSystemInfo().then(setSysInfo).catch(() => setSysInfo(null));
+    SystemInfo.getSystemInfo()
+      .then(setSysInfo)
+      .catch(() => setSysInfo(null));
   }, []);
 
   return (
     <ScrollView style={[styles.container, theme.app.container]}>
-      <Text style={[styles.title, theme.app.title]}>System Performance Monitor</Text>
+      <Text style={[styles.title, theme.app.title]}>
+        System Performance Monitor
+      </Text>
 
       {/* Controls Section */}
-      <View style={[styles.controlsContainer, theme.app.controlsContainer, styles.bordered]}>
-        <Text style={[styles.sectionTitle, theme.app.sectionTitle]}>Controls</Text>
+      <View
+        style={[
+          styles.controlsContainer,
+          theme.app.controlsContainer,
+          styles.bordered,
+        ]}
+      >
+        <Text style={[styles.sectionTitle, theme.app.sectionTitle]}>
+          Controls
+        </Text>
 
         {sysInfo && (
-          <View style={[styles.accordionContainer, theme.app.controlsContainer]}>
+          <View
+            style={[styles.accordionContainer, theme.app.controlsContainer]}
+          >
             <Pressable
               accessibilityRole="button"
               accessibilityLabel="Toggle system info"
               onPress={() => setIsSysInfoOpen((v) => !v)}
               style={styles.accordionHeader}
             >
-              <Text style={[styles.controlLabel, theme.app.controlLabel, { fontWeight: '700' }]}>System Info</Text>
-              <Text style={[styles.controlLabel, theme.app.controlLabel]}>{isSysInfoOpen ? '▲' : '▼'}</Text>
+              <Text
+                style={[
+                  styles.controlLabel,
+                  theme.app.controlLabel,
+                  { fontWeight: '700' },
+                ]}
+              >
+                System Info
+              </Text>
+              <Text style={[styles.controlLabel, theme.app.controlLabel]}>
+                {isSysInfoOpen ? '▲' : '▼'}
+              </Text>
             </Pressable>
 
             {isSysInfoOpen && (
               <View style={styles.accordionBody}>
-                <Text style={[styles.controlLabel, theme.app.controlLabel]}>App: {sysInfo.appName}</Text>
-                <Text style={[styles.controlLabel, theme.app.controlLabel]}>Package: {sysInfo.packageName}</Text>
-                <Text style={[styles.controlLabel, theme.app.controlLabel]}>Version: {sysInfo.versionName} ({sysInfo.versionCode})</Text>
-                <Text style={[styles.controlLabel, theme.app.controlLabel]}>Manufacturer: {sysInfo.manufacturer}</Text>
-                <Text style={[styles.controlLabel, theme.app.controlLabel]}>Model: {sysInfo.model}</Text>
-                <Text style={[styles.controlLabel, theme.app.controlLabel]}>Android: {sysInfo.osVersion} (SDK {sysInfo.sdkInt})</Text>
-                <Text style={[styles.controlLabel, theme.app.controlLabel]}>Device: {sysInfo.device} • Product: {sysInfo.product}</Text>
-                <Text style={[styles.controlLabel, theme.app.controlLabel]}>Hardware: {sysInfo.hardware}</Text>
-                <Text style={[styles.controlLabel, theme.app.controlLabel]}>Android ID: {sysInfo.androidId}</Text>
+                <Text style={[styles.controlLabel, theme.app.controlLabel]}>
+                  App: {sysInfo.appName}
+                </Text>
+                <Text style={[styles.controlLabel, theme.app.controlLabel]}>
+                  Package: {sysInfo.packageName}
+                </Text>
+                <Text style={[styles.controlLabel, theme.app.controlLabel]}>
+                  Version: {sysInfo.versionName} ({sysInfo.versionCode})
+                </Text>
+                <Text style={[styles.controlLabel, theme.app.controlLabel]}>
+                  Manufacturer: {sysInfo.manufacturer}
+                </Text>
+                <Text style={[styles.controlLabel, theme.app.controlLabel]}>
+                  Model: {sysInfo.model}
+                </Text>
+                <Text style={[styles.controlLabel, theme.app.controlLabel]}>
+                  Android: {sysInfo.osVersion} (SDK {sysInfo.sdkInt})
+                </Text>
+                <Text style={[styles.controlLabel, theme.app.controlLabel]}>
+                  Device: {sysInfo.device} • Product: {sysInfo.product}
+                </Text>
+                <Text style={[styles.controlLabel, theme.app.controlLabel]}>
+                  Hardware: {sysInfo.hardware}
+                </Text>
+                <Text style={[styles.controlLabel, theme.app.controlLabel]}>
+                  Android ID: {sysInfo.androidId}
+                </Text>
               </View>
             )}
           </View>
         )}
 
         <View style={styles.controlRow}>
-          <Text style={[styles.controlLabel, theme.app.controlLabel]}>Dark Theme :</Text>
+          <Text style={[styles.controlLabel, theme.app.controlLabel]}>
+            Dark Theme :
+          </Text>
           <Switch value={isDark} onValueChange={setIsDark} />
         </View>
 
         <View style={styles.controlRow}>
-          <Text style={[styles.controlLabel, theme.app.controlLabel]}>Refresh Interval (ms):</Text>
+          <Text style={[styles.controlLabel, theme.app.controlLabel]}>
+            Refresh Interval (ms):
+          </Text>
           <TextInput
             style={[styles.input, theme.app.input]}
             value={refreshInterval.toString()}
@@ -91,29 +137,39 @@ export default function App() {
         </View>
 
         <View style={styles.controlRow}>
-          <Text style={[styles.controlLabel, theme.app.controlLabel]}>Show CPU:</Text>
+          <Text style={[styles.controlLabel, theme.app.controlLabel]}>
+            Show CPU:
+          </Text>
           <Switch value={showCPU} onValueChange={setShowCPU} />
         </View>
 
         <View style={styles.controlRow}>
-          <Text style={[styles.controlLabel, theme.app.controlLabel]}>Show RAM:</Text>
+          <Text style={[styles.controlLabel, theme.app.controlLabel]}>
+            Show RAM:
+          </Text>
           <Switch value={showRAM} onValueChange={setShowRAM} />
         </View>
 
         <View style={styles.controlRow}>
-          <Text style={[styles.controlLabel, theme.app.controlLabel]}>Show Storage:</Text>
+          <Text style={[styles.controlLabel, theme.app.controlLabel]}>
+            Show Storage:
+          </Text>
           <Switch value={showStorage} onValueChange={setShowStorage} />
         </View>
 
         <View style={styles.controlRow}>
-          <Text style={[styles.controlLabel, theme.app.controlLabel]}>Show Battery:</Text>
+          <Text style={[styles.controlLabel, theme.app.controlLabel]}>
+            Show Battery:
+          </Text>
           <Switch value={showBattery} onValueChange={setShowBattery} />
         </View>
       </View>
 
       {/* System Performance Widget */}
       <View style={styles.widgetSection}>
-        <Text style={[styles.sectionTitle, theme.app.sectionTitle]}>System Performance Widget</Text>
+        <Text style={[styles.sectionTitle, theme.app.sectionTitle]}>
+          System Performance Widget
+        </Text>
         <SystemPerformanceWidget
           refreshInterval={refreshInterval}
           showCPU={showCPU}
@@ -121,7 +177,11 @@ export default function App() {
           showStorage={showStorage}
           showBattery={showBattery}
           style={[styles.widget, theme.widget.container, styles.bordered]}
-          componentStyle={[styles.individualComponent, theme.widget.component, styles.bordered]}
+          componentStyle={[
+            styles.individualComponent,
+            theme.widget.component,
+            styles.bordered,
+          ]}
           labelStyle={[styles.componentLabel, theme.widget.label]}
           valueStyle={[styles.componentValue, theme.widget.value]}
         />
@@ -129,13 +189,19 @@ export default function App() {
 
       {/* Individual Components */}
       <View style={styles.componentsSection}>
-        <Text style={[styles.sectionTitle, theme.app.sectionTitle]}>Individual Components</Text>
+        <Text style={[styles.sectionTitle, theme.app.sectionTitle]}>
+          Individual Components
+        </Text>
 
         {showCPU && (
           <CPUUsageComponent
             label="CPU Usage"
             refreshInterval={refreshInterval}
-            style={[styles.individualComponent, theme.widget.component, styles.bordered]}
+            style={[
+              styles.individualComponent,
+              theme.widget.component,
+              styles.bordered,
+            ]}
             labelStyle={[styles.componentLabel, theme.widget.label]}
             valueStyle={[styles.componentValue, theme.widget.value]}
           />
@@ -145,7 +211,11 @@ export default function App() {
           <RAMUsageComponent
             label="RAM Usage"
             refreshInterval={refreshInterval}
-            style={[styles.individualComponent, theme.widget.component, styles.bordered]}
+            style={[
+              styles.individualComponent,
+              theme.widget.component,
+              styles.bordered,
+            ]}
             labelStyle={[styles.componentLabel, theme.widget.label]}
             valueStyle={[styles.componentValue, theme.widget.value]}
           />
@@ -155,7 +225,11 @@ export default function App() {
           <StorageUsageComponent
             label="Storage Usage"
             refreshInterval={refreshInterval}
-            style={[styles.individualComponent, theme.widget.component, styles.bordered]}
+            style={[
+              styles.individualComponent,
+              theme.widget.component,
+              styles.bordered,
+            ]}
             labelStyle={[styles.componentLabel, theme.widget.label]}
             valueStyle={[styles.componentValue, theme.widget.value]}
           />
@@ -165,7 +239,11 @@ export default function App() {
           <BatteryUsageComponent
             label="Battery Level"
             refreshInterval={refreshInterval}
-            style={[styles.individualComponent, theme.widget.component, styles.bordered]}
+            style={[
+              styles.individualComponent,
+              theme.widget.component,
+              styles.bordered,
+            ]}
             labelStyle={[styles.componentLabel, theme.widget.label]}
             valueStyle={[styles.componentValue, theme.widget.value]}
           />
@@ -208,7 +286,7 @@ const styles = StyleSheet.create({
   accordionContainer: {
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 8,
-    borderColor: '#ddd',
+    borderColor: '#ae0505ff',
     marginTop: 8,
     marginBottom: 12,
   },

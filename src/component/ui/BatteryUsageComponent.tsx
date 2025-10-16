@@ -1,6 +1,13 @@
-/* eslint-disable */
 import React, { useEffect, useRef, useState } from 'react';
-import { Text, View, ActivityIndicator, Platform, type ViewStyle, type TextStyle, type StyleProp } from 'react-native';
+import {
+  Text,
+  View,
+  ActivityIndicator,
+  Platform,
+  type ViewStyle,
+  type TextStyle,
+  type StyleProp,
+} from 'react-native';
 import ProgressBar from './ProgressBar';
 import SystemInfo from '../../NativeSysinfocomps';
 
@@ -75,19 +82,21 @@ const BatteryUsageComponent: React.FC<BatteryUsageProps> = ({
             size={compact ? 100 : '100%'}
             strokeWidth={12}
             trackColor="#E6F4FA"
-            tintColor={battery > 60 ? '#10B981' : battery > 25 ? '#F59E0B' : '#EF4444'}
-            textColor={battery > 60 ? '#10B981' : battery > 25 ? '#F59E0B' : '#EF4444'}
+            tintColor={
+              battery > 60 ? '#10B981' : battery > 25 ? '#F59E0B' : '#EF4444'
+            }
+            textColor={
+              battery > 60 ? '#10B981' : battery > 25 ? '#F59E0B' : '#EF4444'
+            }
             decimals={1}
           />
         </>
       ) : error ? (
         <Text style={valueStyle}>Error: {error}</Text>
+      ) : Platform.OS === 'ios' ? (
+        <ActivityIndicator accessibilityLabel="Loading battery level" />
       ) : (
-        Platform.OS === 'ios' ? (
-          <ActivityIndicator accessibilityLabel="Loading battery level" />
-        ) : (
-          <Text style={valueStyle}>Loading...</Text>
-        )
+        <Text style={valueStyle}>Loading...</Text>
       )}
     </View>
   );

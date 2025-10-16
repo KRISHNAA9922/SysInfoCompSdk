@@ -1,5 +1,14 @@
 import React from 'react';
-import { View, StyleSheet, useColorScheme, PlatformColor, Platform, type ViewStyle, type TextStyle, type StyleProp } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  useColorScheme,
+  PlatformColor,
+  Platform,
+  type ViewStyle,
+  type TextStyle,
+  type StyleProp,
+} from 'react-native';
 import CPUUsageComponent from './ui/CPUUsageComponent';
 import RAMUsageComponent from './ui/RAMUsageComponent';
 import StorageUsageComponent from './ui/StorageUsageComponent';
@@ -36,20 +45,32 @@ const SystemPerformanceWidget: React.FC<SystemPerformanceWidgetProps> = ({
       Platform.OS === 'ios'
         ? PlatformColor(isDark ? 'systemGray6' : 'systemGroupedBackground')
         : isDark
-        ? '#111827'
-        : '#FFFFFF',
+          ? '#111827'
+          : '#FFFFFF',
     cardBg:
       Platform.OS === 'ios'
         ? PlatformColor(isDark ? 'systemGray5' : 'systemBackground')
         : isDark
-        ? '#111827'
-        : '#FFFFFF',
+          ? '#111827'
+          : '#FFFFFF',
     labelColor:
-      Platform.OS === 'ios' ? PlatformColor('label') : isDark ? '#F3F4F6' : '#1F2937',
+      Platform.OS === 'ios'
+        ? PlatformColor('label')
+        : isDark
+          ? '#F3F4F6'
+          : '#1F2937',
     valueColor:
-      Platform.OS === 'ios' ? PlatformColor('systemBlue') : isDark ? '#5EA0FF' : '#007AFF',
+      Platform.OS === 'ios'
+        ? PlatformColor('systemBlue')
+        : isDark
+          ? '#5EA0FF'
+          : '#007AFF',
     separator:
-      Platform.OS === 'ios' ? PlatformColor('separator') : isDark ? '#374151' : '#E5E7EB',
+      Platform.OS === 'ios'
+        ? PlatformColor('separator')
+        : isDark
+          ? '#374151'
+          : '#E5E7EB',
   } as const;
 
   const defaultComponentStyle = {
@@ -119,7 +140,11 @@ const SystemPerformanceWidget: React.FC<SystemPerformanceWidgetProps> = ({
     <View
       accessibilityRole="summary"
       accessibilityLabel="System performance overview"
-      style={[styles.container, { backgroundColor: themed.containerBg, borderColor: themed.separator }, style]}
+      style={[
+        styles.container,
+        { backgroundColor: themed.containerBg, borderColor: themed.separator },
+        style,
+      ]}
     >
       <View style={styles.gridContainer}>
         {components.map((component, index) => (

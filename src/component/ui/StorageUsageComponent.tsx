@@ -1,5 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Text, View, ActivityIndicator, Platform, type ViewStyle, type TextStyle, type StyleProp } from 'react-native';
+import {
+  Text,
+  View,
+  ActivityIndicator,
+  Platform,
+  type ViewStyle,
+  type TextStyle,
+  type StyleProp,
+} from 'react-native';
 import ProgressBar from './ProgressBar';
 import SystemInfo from '../../NativeSysinfocomps';
 
@@ -74,18 +82,20 @@ const StorageUsageComponent: React.FC<StorageUsageProps> = ({
             size={compact ? 100 : '100%'}
             strokeWidth={12}
             trackColor="#E6F4FA"
-            tintColor={storage < 70 ? '#10B981' : storage < 90 ? '#F59E0B' : '#EF4444'}
-            textColor={storage < 70 ? '#10B981' : storage < 90 ? '#F59E0B' : '#EF4444'}
+            tintColor={
+              storage < 70 ? '#10B981' : storage < 90 ? '#F59E0B' : '#EF4444'
+            }
+            textColor={
+              storage < 70 ? '#10B981' : storage < 90 ? '#F59E0B' : '#EF4444'
+            }
           />
         </>
       ) : error ? (
         <Text style={valueStyle}>Error: {error}</Text>
+      ) : Platform.OS === 'ios' ? (
+        <ActivityIndicator accessibilityLabel="Loading storage usage" />
       ) : (
-        Platform.OS === 'ios' ? (
-          <ActivityIndicator accessibilityLabel="Loading storage usage" />
-        ) : (
-          <Text style={valueStyle}>Loading...</Text>
-        )
+        <Text style={valueStyle}>Loading...</Text>
       )}
     </View>
   );

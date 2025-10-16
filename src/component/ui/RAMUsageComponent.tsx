@@ -1,5 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Text, View, ActivityIndicator, Platform, type ViewStyle, type TextStyle, type StyleProp } from 'react-native';
+import {
+  Text,
+  View,
+  ActivityIndicator,
+  Platform,
+  type ViewStyle,
+  type TextStyle,
+  type StyleProp,
+} from 'react-native';
 import ProgressBar from './ProgressBar';
 import SystemInfo from '../../NativeSysinfocomps';
 
@@ -78,16 +86,16 @@ const RAMUsageComponent: React.FC<RAMUsageProps> = ({
             textColor={ram < 60 ? '#10B981' : ram < 85 ? '#F59E0B' : '#EF4444'}
             showText={false}
           />
-          <Text style={[valueStyle, { textAlign: 'center', marginTop: 8 }]}>{ram.toFixed(2)}</Text>
+          <Text style={[valueStyle, { textAlign: 'center', marginTop: 8 }]}>
+            {ram.toFixed(2)}
+          </Text>
         </>
       ) : error ? (
         <Text style={valueStyle}>Error: {error}</Text>
+      ) : Platform.OS === 'ios' ? (
+        <ActivityIndicator accessibilityLabel="Loading RAM usage" />
       ) : (
-        Platform.OS === 'ios' ? (
-          <ActivityIndicator accessibilityLabel="Loading RAM usage" />
-        ) : (
-          <Text style={valueStyle}>Loading...</Text>
-        )
+        <Text style={valueStyle}>Loading...</Text>
       )}
     </View>
   );

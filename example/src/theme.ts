@@ -95,5 +95,3 @@ export function getAppTheme(isDark: boolean): AppTheme {
     },
   };
 }
-
-

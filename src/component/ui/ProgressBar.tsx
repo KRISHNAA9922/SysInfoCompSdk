@@ -12,7 +12,8 @@ type ProgressBarProps = {
   decimals?: number; // number of decimal places to show in text
 };
 
-const clamp = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max);
+const clamp = (num: number, min: number, max: number) =>
+  Math.min(Math.max(num, min), max);
 
 // Pure-View donut progress using the two half-arc technique (no external deps)
 const ProgressBar: React.FC<ProgressBarProps> = ({
@@ -57,7 +58,9 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
         />
       </View>
       {showText && (
-        <Text style={[styles.valueText, { color: textColor, marginTop: 8 }]}>{progress.toFixed(decimals)}%</Text>
+        <Text style={[styles.valueText, { color: textColor, marginTop: 8 }]}>
+          {progress.toFixed(decimals)}%
+        </Text>
       )}
     </View>
   );
