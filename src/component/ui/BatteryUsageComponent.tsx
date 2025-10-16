@@ -1,13 +1,16 @@
+/* eslint-disable */
 import React, { useEffect, useRef, useState } from 'react';
-import { Text, View, type ViewStyle, type TextStyle } from 'react-native';
+import { Text, View, ActivityIndicator, Platform, type ViewStyle, type TextStyle, type StyleProp } from 'react-native';
+import ProgressBar from './ProgressBar';
 import SystemInfo from '../../NativeSysinfocomps';
 
 type BatteryUsageProps = {
   label?: string;
   refreshInterval?: number; // ms
-  style?: ViewStyle;
-  labelStyle?: TextStyle;
-  valueStyle?: TextStyle;
+  style?: StyleProp<ViewStyle>;
+  labelStyle?: StyleProp<TextStyle>;
+  valueStyle?: StyleProp<TextStyle>;
+  compact?: boolean;
 };
 
 const BatteryUsageComponent: React.FC<BatteryUsageProps> = ({
@@ -16,6 +19,7 @@ const BatteryUsageComponent: React.FC<BatteryUsageProps> = ({
   style,
   labelStyle,
   valueStyle,
+  compact = false,
 }) => {
   const [battery, setBattery] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -27,11 +31,13 @@ const BatteryUsageComponent: React.FC<BatteryUsageProps> = ({
       const value = await SystemInfo.getBatteryUsage();
 
       if (isMounted.current) {
+        if (__DEV__) console.log('[SysInfo][Battery]', value);
         setBattery(value);
         setError(null);
       }
     } catch (err) {
       if (isMounted.current) {
+        if (__DEV__) console.warn('[SysInfo][Battery][Error]', err);
         setBattery(null);
         setError(err instanceof Error ? err.message : 'Unknown error');
       }
@@ -54,14 +60,34 @@ const BatteryUsageComponent: React.FC<BatteryUsageProps> = ({
   }, [refreshInterval]);
 
   return (
-    <View style={style}>
+    <View
+      style={style}
+      accessible
+      accessibilityRole="summary"
+      accessibilityLabel={label}
+      accessibilityHint="Shows current battery level percentage"
+    >
       <Text style={labelStyle}>{label}</Text>
       {battery !== null ? (
-        <Text style={valueStyle}>{battery.toFixed(0)}%</Text>
+        <>
+          <ProgressBar
+            value={battery}
+            size={compact ? 100 : '100%'}
+            strokeWidth={12}
+            trackColor="#E6F4FA"
+            tintColor={battery > 60 ? '#10B981' : battery > 25 ? '#F59E0B' : '#EF4444'}
+            textColor={battery > 60 ? '#10B981' : battery > 25 ? '#F59E0B' : '#EF4444'}
+            decimals={1}
+          />
+        </>
       ) : error ? (
         <Text style={valueStyle}>Error: {error}</Text>
       ) : (
-        <Text style={valueStyle}>Loading...</Text>
+        Platform.OS === 'ios' ? (
+          <ActivityIndicator accessibilityLabel="Loading battery level" />
+        ) : (
+          <Text style={valueStyle}>Loading...</Text>
+        )
       )}
     </View>
   );

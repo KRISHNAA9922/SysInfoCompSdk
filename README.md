@@ -229,11 +229,13 @@ const getSystemMetrics = async () => {
     const ramUsage = await SystemInfo.getRAMUsage();
     const storageUsage = await SystemInfo.getStorageUsage();
     const batteryLevel = await SystemInfo.getBatteryUsage();
+    const system = await SystemInfo.getSystemInfo();
     
     console.log('CPU:', cpuUsage, '%');
     console.log('RAM:', ramUsage, '%');
     console.log('Storage:', storageUsage, '%');
     console.log('Battery:', batteryLevel, '%');
+    console.log('System:', system);
   } catch (error) {
     console.error('Error getting system metrics:', error);
   }
@@ -272,6 +274,7 @@ const getSystemMetrics = async () => {
   - RAM Usage: Uses `Runtime.getRuntime()` for memory information
   - Storage Usage: Uses `StatFs` for storage metrics
   - Battery Usage: Uses `BatteryManager` for battery level
+  - System Info: Uses `Build`, `PackageManager`, `Settings.Secure` for device/app details
 
 ### Project Structure
 ```

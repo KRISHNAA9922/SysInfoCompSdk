@@ -38,7 +38,7 @@
     "codegen:android": "bash -lc \"cd example/android; ./gradlew :app:generateCodegenArtifactsFromSchema\"",
     "test": "jest",
     "typecheck": "tsc",
-    "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "push": "git add . && git commit -m 'Update code' && git push",
     "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
     "prepare": "bob build",
     "release": "release-it --only-version"

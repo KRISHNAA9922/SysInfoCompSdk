@@ -1,3 +1,30 @@
+# Example App - react-native-sysinfocomps
+
+This app demonstrates the library components and TurboModule usage.
+
+## Dev Logging
+
+In development, the components log incoming values and errors to the Metro console:
+
+```
+[SysInfo][CPU] 23.4
+[SysInfo][RAM] 51.2
+[SysInfo][Storage] 72.1
+[SysInfo][Battery] 46
+```
+
+## TurboModule Notes (Android)
+
+- Native module: `android/src/main/java/com/sysinfocomps/SysinfocompsModule.kt`
+- JS bridge: `src/NativeSysinfocomps.ts`
+- Methods return Promises and are typed via the Spec interface
+
+### Docs
+
+- TurboModules overview: `https://reactnative.dev/docs/the-new-architecture/pillars-turbomodules`
+- Android Native Modules: `https://reactnative.dev/docs/native-modules-android`
+- Codegen/Spec: `https://reactnative.dev/docs/the-new-architecture/pillars-codegen`
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started

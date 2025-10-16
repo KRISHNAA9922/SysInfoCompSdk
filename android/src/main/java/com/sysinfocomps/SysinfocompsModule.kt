@@ -10,6 +10,10 @@ import java.io.FileReader
 import android.os.StatFs
 import android.content.Context
 import android.os.BatteryManager
+import android.os.Build
+import android.provider.Settings
+import com.facebook.react.bridge.Arguments
+import com.facebook.react.bridge.WritableMap
 
 @ReactModule(name = SysinfocompsModule.NAME)
 class SysinfocompsModule(reactContext: ReactApplicationContext) :
@@ -72,6 +76,41 @@ class SysinfocompsModule(reactContext: ReactApplicationContext) :
         promise.resolve(usage)
       } catch (e: Exception) {
         promise.reject("BATTERY_ERROR", "Failed to get battery usage: ${e.message}", e)
+      }
+    }
+  }
+
+  @ReactMethod
+  override fun getSystemInfo(promise: Promise) {
+    scope.launch {
+      try {
+        val pm = context.packageManager
+        val packageName = context.packageName
+        val packageInfo = pm.getPackageInfo(packageName, 0)
+
+        val map: WritableMap = Arguments.createMap()
+        map.putString("manufacturer", Build.MANUFACTURER)
+        map.putString("brand", Build.BRAND)
+        map.putString("model", Build.MODEL)
+        map.putString("device", Build.DEVICE)
+        map.putString("product", Build.PRODUCT)
+        map.putString("hardware", Build.HARDWARE)
+        map.putString("fingerprint", Build.FINGERPRINT)
+        map.putString("host", Build.HOST)
+        map.putString("osVersion", Build.VERSION.RELEASE ?: "")
+        map.putInt("sdkInt", Build.VERSION.SDK_INT)
+        val androidId = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
+        map.putString("androidId", androidId ?: "")
+        val appName = pm.getApplicationLabel(pm.getApplicationInfo(packageName, 0)).toString()
+        map.putString("appName", appName)
+        map.putString("packageName", packageName)
+        map.putString("versionName", packageInfo.versionName ?: "")
+        val versionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) packageInfo.longVersionCode.toDouble() else packageInfo.versionCode.toDouble()
+        map.putDouble("versionCode", versionCode)
+
+        promise.resolve(map)
+      } catch (e: Exception) {
+        promise.reject("SYSINFO_ERROR", "Failed to get system info: ${e.message}", e)
       }
     }
   }

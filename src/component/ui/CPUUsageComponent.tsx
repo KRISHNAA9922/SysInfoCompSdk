@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Text, View, type ViewStyle, type TextStyle } from 'react-native';
+import { Text, View, ActivityIndicator, Platform, type ViewStyle, type TextStyle, type StyleProp } from 'react-native';
+import ProgressBar from './ProgressBar';
 import SystemInfo from '../../NativeSysinfocomps';
 
 type CPUUsageProps = {
   label?: string;
   refreshInterval?: number; // ms
-  style?: ViewStyle;
-  labelStyle?: TextStyle;
-  valueStyle?: TextStyle;
+  style?: StyleProp<ViewStyle>;
+  labelStyle?: StyleProp<TextStyle>;
+  valueStyle?: StyleProp<TextStyle>;
+  compact?: boolean; // when true, use compact progress width for grid
 };
 
 const CPUUsageComponent: React.FC<CPUUsageProps> = ({
@@ -16,6 +18,7 @@ const CPUUsageComponent: React.FC<CPUUsageProps> = ({
   style,
   labelStyle,
   valueStyle,
+  compact = false,
 }) => {
   const [cpu, setCpu] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -28,11 +31,13 @@ const CPUUsageComponent: React.FC<CPUUsageProps> = ({
       const value = await SystemInfo.getCPUUsage();
 
       if (isMounted.current) {
+        if (__DEV__) console.log('[SysInfo][CPU]', value);
         setCpu(value);
         setError(null);
       }
     } catch (err) {
       if (isMounted.current) {
+        if (__DEV__) console.warn('[SysInfo][CPU][Error]', err);
         setCpu(null);
         setError(err instanceof Error ? err.message : 'Unknown error');
       }
@@ -55,14 +60,33 @@ const CPUUsageComponent: React.FC<CPUUsageProps> = ({
   }, [refreshInterval]);
 
   return (
-    <View style={style}>
+    <View
+      style={style}
+      accessible
+      accessibilityRole="summary"
+      accessibilityLabel={label}
+      accessibilityHint="Shows current CPU usage percentage"
+    >
       <Text style={labelStyle}>{label}</Text>
       {cpu !== null ? (
-        <Text style={valueStyle}>{cpu.toFixed(2)}%</Text>
+        <>
+          <ProgressBar
+            value={cpu}
+            size={compact ? 100 : '100%'}
+            strokeWidth={12}
+            trackColor="#E6F4FA"
+            tintColor={cpu < 60 ? '#10B981' : cpu < 85 ? '#F59E0B' : '#EF4444'}
+            textColor={cpu < 60 ? '#10B981' : cpu < 85 ? '#F59E0B' : '#EF4444'}
+          />
+        </>
       ) : error ? (
         <Text style={valueStyle}>Error: {error}</Text>
       ) : (
-        <Text style={valueStyle}>Loading...</Text>
+        Platform.OS === 'ios' ? (
+          <ActivityIndicator accessibilityLabel="Loading CPU usage" />
+        ) : (
+          <Text style={valueStyle}>Loading...</Text>
+        )
       )}
     </View>
   );
