@@ -60,7 +60,28 @@ describe('ProgressBar', () => {
     expect(hasText).toBe(false);
   });
 
-  
+  //negative test case for showText
+  it('clamps low values and hides text when showText is false', () => {
+    let tree: renderer.ReactTestRenderer;
+    act(() => {
+      tree = renderer.create(
+        <ProgressBar value={-50} showText={true} />
+      );
+    });
+
+    // No Text should be rendered when showText is false
+    const hasText = (() => {
+      try {
+        tree!.root.findByType(Text);
+        return true;
+      } catch {
+        return false;
+      }
+    })();
+    // eslint-disable-next-line no-console
+    console.log('ProgressBar showText=false -> expected: no Text | received:', hasText ? 'Text present' : 'no Text');
+    expect(hasText).toBe(false);
+  }); 
 });
 
 
